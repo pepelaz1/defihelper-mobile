@@ -6,10 +6,12 @@
     "scheme": "defihelper",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "splash": {
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#f5efe1"
     },
@@ -23,13 +25,15 @@
     "android": {
       "package": "com.pepelaz1.defihelper",
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#f5efe1"
       }
     },
     "extra": {
       "eas": {
-        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+        "projectId": "3042f772-5c00-420e-a16f-07de8b0e2c70"
       }
-    }
+    },
+    "owner": "pepelaz"
   }
 }

@@ -2,7 +2,8 @@ import type { DashboardData } from "../types/uniswap";
 
 export const mockDashboardData: DashboardData = {
   meta: {
-    mode: "mock"
+    mode: "mock",
+    sourceLabel: "Mock dataset"
   },
   summary: {
     walletCount: 2,
@@ -11,7 +12,9 @@ export const mockDashboardData: DashboardData = {
   },
   pools: [
     {
+      dex: "Uniswap",
       chain: "Ethereum",
+      chainKey: "ethereum",
       feeTier: "0.30%",
       liquidityLabel: "1 active position",
       poolAddress: "0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8",
@@ -26,7 +29,9 @@ export const mockDashboardData: DashboardData = {
       walletAddress: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
     },
     {
+      dex: "Uniswap",
       chain: "Ethereum",
+      chainKey: "ethereum",
       feeTier: "0.05%",
       liquidityLabel: "2 active positions",
       poolAddress: "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640",
@@ -41,7 +46,9 @@ export const mockDashboardData: DashboardData = {
       walletAddress: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
     },
     {
+      dex: "Uniswap",
       chain: "Ethereum",
+      chainKey: "ethereum",
       feeTier: "1.00%",
       liquidityLabel: "1 active position",
       poolAddress: "0xcbcdf9626bc03e24f779434178a73a0b4bad62ed",
