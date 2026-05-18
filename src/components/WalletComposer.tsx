@@ -19,10 +19,10 @@ export const WalletComposer = ({
   wallets
 }: WalletComposerProps) => (
   <View style={styles.card}>
+    <Text style={styles.eyebrow}>LP Position Dashboard</Text>
+    <Text style={styles.title}>Track wallets, pools, and farmed LP positions in one place.</Text>
+    <Text style={styles.copy}>Add one EVM wallet at a time.</Text>
     <Text style={styles.label}>Wallet List</Text>
-    <Text style={styles.copy}>
-      Add one EVM wallet at a time.
-    </Text>
     <View style={styles.inputRow}>
       <TextInput
         autoCapitalize="none"
@@ -57,17 +57,31 @@ const styles = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: palette.line,
-    gap: 10
+    gap: 9
+  },
+  eyebrow: {
+    fontSize: 11,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    color: palette.teal,
+    fontWeight: "800"
+  },
+  title: {
+    fontSize: 19,
+    lineHeight: 25,
+    fontWeight: "800",
+    color: palette.ink
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "800",
     color: palette.ink
   },
   copy: {
     color: palette.muted,
     fontSize: 12,
-    lineHeight: 17
+    lineHeight: 17,
+    marginBottom: 2
   },
   inputRow: {
     flexDirection: "row",

@@ -28,6 +28,21 @@ const positionStateLabel: Record<NonNullable<DashboardPool["positionState"]>, st
   farmed: "Farmed"
 };
 
+const tokenIconColors: Record<string, string> = {
+  WETH: "#7b8cff",
+  ETH: "#7b8cff",
+  USDC: "#2f82ff",
+  USDT: "#20b26c",
+  WBNB: "#f0b90b",
+  BNB: "#f0b90b",
+  WAVAX: "#e84142",
+  AVAX: "#e84142",
+  CAKE: "#d96aa7",
+  WMATIC: "#7c5cff",
+  MATIC: "#7c5cff",
+  OP: "#ff5050"
+};
+
 const Cell = ({
   title,
   value,
@@ -45,6 +60,18 @@ const Cell = ({
   </View>
 );
 
+const TokenIcon = ({ symbol, overlap = false }: { symbol: string; overlap?: boolean }) => (
+  <View
+    style={[
+      styles.tokenIcon,
+      { backgroundColor: tokenIconColors[symbol] ?? palette.teal },
+      overlap && styles.tokenIconOverlap
+    ]}
+  >
+    <Text style={styles.tokenIconText}>{symbol.slice(0, 3)}</Text>
+  </View>
+);
+
 const RangeCell = ({
   min,
   max,
@@ -58,9 +85,9 @@ const RangeCell = ({
   progress: number;
   status: string;
 }) => (
-  <View style={[styles.cell, styles.rangeCell]}>
+  <View style={styles.rangeRow}>
     <View style={styles.rangeHeader}>
-      <Text style={styles.cellTitle}>Range</Text>
+      <Text style={styles.rangeTitle}>Range</Text>
       <Text style={styles.rangeStatus}>{status}</Text>
     </View>
     <View style={styles.rangeTrack}>
@@ -105,34 +132,39 @@ export const PoolCard = ({ pool }: PoolCardProps) => {
 
   return (
     <View style={styles.card}>
-      <View style={styles.row}>
-        <Cell
-          title={`${pool.dex} ${pool.chain}`}
-          value={`${pool.token0Symbol}/${pool.token1Symbol} | ${pool.feeTier}\n${pool.liquidityLabel}`}
-          flex={1.15}
-        />
-        <Cell title="State" value={stateValue} flex={0.62} />
+      <View style={styles.topRow}>
+        <View style={[styles.cell, styles.metaCell]}>
+          <Text style={styles.cellTitle}>{`${pool.dex} ${pool.chain}`}</Text>
+          <View style={styles.pairRow}>
+            <View style={styles.pairIcons}>
+              <TokenIcon symbol={pool.token0Symbol} />
+              <TokenIcon symbol={pool.token1Symbol} overlap />
+            </View>
+            <View style={styles.pairTextWrap}>
+              <Text style={styles.pairText} numberOfLines={1}>
+                {pool.token0Symbol}/{pool.token1Symbol}
+              </Text>
+              <Text style={styles.metaSubline} numberOfLines={1}>
+                {pool.feeTier} · {stateValue}
+              </Text>
+              <Text style={styles.metaSubline} numberOfLines={1}>
+                {pool.liquidityLabel}
+              </Text>
+            </View>
+          </View>
+        </View>
         <Cell title={pool.token0Symbol} value={token0Value} />
         <Cell title={pool.token1Symbol} value={token1Value} />
-        <Cell title="Fees" value={feesValue} flex={1.1} />
-        {farmValue ? (
-          <Cell title="Farm" value={farmValue} flex={0.9} />
-        ) : null}
-        <RangeCell
-          min={rangeMin}
-          max={rangeMax}
-          now={rangeCurrent}
-          progress={progress}
-          status={rangeStatusValue}
-        />
-        {isInactive ? (
-          <>
-            <Cell title="Raw liquidity" value={pool.debugLiquidityLabel ?? "n/a"} flex={0.95} />
-            <Cell title="Raw tokensOwed" value={pool.debugTokensOwedLabel ?? "n/a"} flex={1.2} />
-            <Cell title="Raw pendingCake" value={pool.debugPendingCakeLabel ?? "n/a"} flex={1.0} />
-          </>
-        ) : null}
+        <Cell title="Fees" value={feesValue} />
+        {farmValue ? <Cell title="Farm" value={farmValue} /> : null}
       </View>
+      <RangeCell
+        min={rangeMin}
+        max={rangeMax}
+        now={rangeCurrent}
+        progress={progress}
+        status={rangeStatusValue}
+      />
     </View>
   );
 };
@@ -143,21 +175,25 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 253, 247, 0.98)",
     borderWidth: 1,
     borderColor: palette.line,
-    overflow: "hidden"
+    overflow: "hidden",
+    padding: 8,
+    gap: 8
   },
-  row: {
+  topRow: {
     flexDirection: "row",
     alignItems: "stretch",
-    gap: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 8
+    gap: 6
   },
   cell: {
     borderRadius: 12,
     backgroundColor: "#fff7ec",
     paddingHorizontal: 8,
     paddingVertical: 7,
-    minHeight: 72
+    minHeight: 70,
+    flex: 1
+  },
+  metaCell: {
+    flex: 2.1
   },
   cellTitle: {
     color: palette.muted,
@@ -172,9 +208,52 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     fontWeight: "700"
   },
-  rangeCell: {
-    flex: 1.5,
-    justifyContent: "space-between"
+  tokenIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 999,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#fff7ec"
+  },
+  tokenIconOverlap: {
+    marginLeft: -7
+  },
+  tokenIconText: {
+    color: "#fffdf8",
+    fontSize: 8,
+    fontWeight: "800"
+  },
+  pairRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8
+  },
+  pairIcons: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  pairTextWrap: {
+    flex: 1
+  },
+  pairText: {
+    color: palette.ink,
+    fontSize: 13,
+    lineHeight: 16,
+    fontWeight: "800"
+  },
+  metaSubline: {
+    color: palette.muted,
+    fontSize: 10,
+    lineHeight: 13,
+    fontWeight: "600"
+  },
+  rangeRow: {
+    borderRadius: 12,
+    backgroundColor: "#fff7ec",
+    paddingHorizontal: 10,
+    paddingVertical: 8
   },
   rangeHeader: {
     flexDirection: "row",
@@ -182,9 +261,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 2
   },
+  rangeTitle: {
+    color: palette.muted,
+    fontSize: 9,
+    textTransform: "uppercase",
+    letterSpacing: 0.3
+  },
   rangeStatus: {
     color: palette.teal,
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: "700"
   },
   rangeTrack: {

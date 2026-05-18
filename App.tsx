@@ -131,14 +131,6 @@ export default function App() {
           }
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.hero}>
-            <Text style={styles.eyebrow}>Uniswap Liquidity Dashboard</Text>
-            <Text style={styles.title}>Track wallets, pools, and LP positions in one mobile dashboard.</Text>
-            <Text style={styles.subtitle}>
-              The app accepts a list of EVM wallets, loads Uniswap V3 liquidity positions, and turns them into a clean dashboard view.
-            </Text>
-          </View>
-
           <WalletComposer
             value={draft}
             onChangeText={setDraft}
@@ -153,7 +145,7 @@ export default function App() {
               <Text style={styles.sectionCopy}>
                 {data?.meta.mode === "mock"
                   ? "Mock data is shown right now. Switch to live mode for real positions."
-                  : `Live data source: ${data?.meta.sourceLabel ?? "Uniswap subgraph"}.`}
+                  : "Live positions from supported DEXes and EVM chains."}
               </Text>
             </View>
             <Pressable style={[styles.refreshButton, isLoading && styles.refreshButtonDisabled]} onPress={refresh} disabled={isLoading}>
@@ -221,33 +213,6 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
     gap: 14
   },
-  hero: {
-    backgroundColor: "rgba(255, 251, 243, 0.86)",
-    borderRadius: 22,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "rgba(31, 52, 65, 0.08)"
-  },
-  eyebrow: {
-    fontSize: 12,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: palette.teal,
-    marginBottom: 10,
-    fontWeight: "700"
-  },
-  title: {
-    fontSize: 22,
-    lineHeight: 28,
-    color: palette.ink,
-    fontWeight: "800",
-    marginBottom: 8
-  },
-  subtitle: {
-    fontSize: 13,
-    lineHeight: 18,
-    color: palette.muted
-  },
   walletSection: {
     gap: 8
   },
@@ -272,7 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 12,
-    alignItems: "center"
+    alignItems: "flex-end"
   },
   sectionTitle: {
     fontSize: 18,
@@ -280,7 +245,7 @@ const styles = StyleSheet.create({
     color: palette.ink
   },
   sectionCopy: {
-    maxWidth: 220,
+    maxWidth: 250,
     color: palette.muted,
     fontSize: 12,
     lineHeight: 17,
