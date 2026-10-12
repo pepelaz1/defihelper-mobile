@@ -110,3 +110,11 @@ For production, it is better to move Uniswap requests behind your own backend or
 - avoid exposing sensitive API credentials in the mobile client;
 - aggregate data from multiple chains in one place;
 - calculate real position value and fee APR more accurately.
+
+<!-- portfolio-visual:start -->
+## Схема работы
+
+![Панель LP-позиций Uniswap](docs/portfolio/diagram.png)
+
+Схема подготовлена по README и исходному коду. Запуск приложения не проверялся.
+<!-- portfolio-visual:end -->
